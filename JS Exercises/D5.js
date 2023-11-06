@@ -42,16 +42,34 @@ console.log("----ESERCIZIO 2----");
 console.log("-------------------");
 console.log("\n");
 
-console.log(pets.sort());
+// usando il metodo sort() sull'array:
+// console.log(pets.sort());
 
 // o tramite funzione:
 console.log("-------------------");
 
-function orderArr(arr) {
-  return arr.sort();
-}
+// function orderArr(arr) {
+//   return arr.sort();
+// }
 
-console.log(orderArr(pets));
+// console.log(orderArr(pets));
+
+/*
+in questo modo però cambio anche l'array di partenza.
+potrei fare una funzione che crea una copia del primo array, 
+in modo che il primo array rimanga invariato.
+
+*/
+console.log("-------------------");
+
+function orderArrayNonDestructive(arr){
+  let newArr = [];
+  Object.assign(newArr, arr);
+  return newArr.sort();
+}
+console.log(orderArrayNonDestructive(pets));
+console.log(pets);
+
 
 /* ESERCIZIO 3
     Scrivi del codice per stampare nuovamente in console gli elementi dell'array "pets", questa volta in ordine invertito.
@@ -62,7 +80,23 @@ console.log("----ESERCIZIO 3----");
 console.log("-------------------");
 console.log("\n");
 
-console.log(pets.reverse());
+// con il metodo reverse() sull'array:
+// console.log(pets.reverse());
+
+// anche in questo caso modifico l'array di partenza.
+// creo una nuova funzione in modo da non modificare
+// l'array pets: 
+console.log(pets)
+console.log("-------------------");
+
+function reverseArrayNonDestructive(arr){
+  let newArr = [];
+  Object.assign(newArr, arr);
+  return newArr.reverse();
+}
+
+console.log(reverseArrayNonDestructive(pets));
+console.log(pets);
 
 /* ESERCIZIO 4
     Scrivi del codice per spostare il primo elemento dall'array "pets" in ultima posizione.
@@ -74,9 +108,25 @@ console.log("----ESERCIZIO 4----");
 console.log("-------------------");
 console.log("\n");
 
-let firstEle = pets.shift();
-pets.push(firstEle);
+
+// senza funzione, metodo distruttivo:
+// let firstEle = pets.shift();
+// pets.push(firstEle);
+// console.log(pets);
+
+// con funzione per mantenere intatto l'array di partenza:
+function switchFirstLast(arr){
+  let newArr = [];
+  Object.assign(newArr, arr);
+
+  let firstEle = newArr.shift();
+  newArr.push(firstEle);
+  return newArr;
+}
+console.log(switchFirstLast(pets));
 console.log(pets);
+
+
 
 /* ESERCIZIO 5
     Dato il seguente array di oggetti, scrivi del codice per aggiungere ad ognuno di essi una proprietà "licensePlate" con valore a tua scelta.
@@ -137,7 +187,7 @@ function generatePlate() {
     "X",
     "Y",
     "Z",
-  ]; // non tengo conto del fatto che certi caratteri non sono presenti nelle targhr reali;
+  ]; // non tengo conto del fatto che certi caratteri non sono presenti nelle targhe reali;
   let startLett =
     lett[Math.floor(Math.random() * lett.length)] +
     lett[Math.floor(Math.random() * lett.length)];
@@ -174,7 +224,7 @@ console.log("\n");
 const newCar = {
   brand: "Fiat",
   model: "Panda",
-  color: "black",
+  color: "green",
   trims: ["4x4", "country", "turbo"],
 };
 newCar.licensePlate = generatePlate();
@@ -182,10 +232,10 @@ newCar.licensePlate = generatePlate();
 cars.push(newCar);
 console.log(cars);
 
-for (let i = 0; i < cars.length; i++) {
-  cars[i].trims.pop();
-}
-console.log(cars);
+// for (let i = 0; i < cars.length; i++) {
+//   cars[i].trims.pop();
+// }
+// console.log(cars);
 
 /* ESERCIZIO 7
     Scrivi del codice per salvare il primo elemento della proprietà "trims" di ogni auto nel nuovo array "justTrims", sotto definito.
@@ -197,11 +247,28 @@ console.log("----ESERCIZIO 7----");
 console.log("-------------------");
 console.log("\n");
 
+// // funziona, ma va ad eliminare l'elemento dall'oggetto di partenza
 const justTrims = [];
-for (let i = 0; i < cars.length; i++) {
-  justTrims.push(cars[i].trims.shift());
+// for (let i = 0; i < cars.length; i++) {
+//   justTrims.push(cars[i].trims.shift());
+// }
+// // console.log(justTrims);
+
+function firstTrim(arr){
+  let newArr = [];
+  Object.assign(newArr, arr);
+  for (let i = 0; i < newArr.length; i++) {
+    trimEle = newArr[i].trims.shift();
+    justTrims.push(trimEle);
+  }
+  return justTrims;
 }
-console.log(justTrims);
+console.log(cars)
+
+console.log(firstTrim(cars));
+
+console.log(justTrims)
+console.log(cars)
 
 /* ESERCIZIO 8
     Cicla l'array "cars" e costruisci un if/else statament per mostrare due diversi messaggi in console. Se la prima lettera della proprietà
@@ -353,6 +420,7 @@ let positionAlphabet = (arr) => {
 
 
 testArr = ["j", "a", "z", "m", "i", 12, "f"]
+
 console.log(positionAlphabet(testArr))
 console.log(charactersArray);
 console.log(positionAlphabet(charactersArray))
